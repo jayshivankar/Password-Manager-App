@@ -1,10 +1,28 @@
 from tkinter import *
 from tkinter import messagebox
+from random import *
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
-def save():
+def generate():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
+    password_letters = [choice(letters) for letter in range(randint(8,10))]
+    password_symbols = [choice(symbols) for symbol in range(randint(2,4))]
+    password_number = [choice(numbers) for num in range(randint(2,4))]
+
+    password_list = password_number+password_symbols+password_letters
+    shuffle(password_list)
+    password = "".join(password_list)
+
+    print(f"Your password is: {password}")
+    password_entry.insert(0,password_list)
+
+
+# ---------------------------- SAVE PASSWORD ------------------------------- #
+def save():
     website_get = website_entry.get()
     username_get = username_entry.get()
     password_get = password_entry.get()
@@ -21,10 +39,6 @@ def save():
             website_entry.delete(0, END)
             username_entry.delete(0,END)
             password_entry.delete(0, END)
-
-
-# ---------------------------- SAVE PASSWORD ------------------------------- #
-
 #  UI SETUP
 window = Tk()
 window.title("Password Manager")
@@ -52,7 +66,7 @@ password_entry = Entry(width=17)
 password_entry.grid(column=1,row=3)
 
 
-generate_pass_button = Button(text="Generate Password")
+generate_pass_button = Button(text="Generate Password",command=generate)
 generate_pass_button.grid(row=3,column=2)
 
 add_button = Button(text="Add",width=36,command=save)
