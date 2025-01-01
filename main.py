@@ -39,6 +39,26 @@ def save():
             website_entry.delete(0, END)
             username_entry.delete(0,END)
             password_entry.delete(0, END)
+
+
+
+def find_password():
+    word_to_find = website_entry.get()
+    file_path = "data.txt"
+
+    found = False  # Flag to check if the website is found
+    with open(file_path, "r") as file:
+        for line in file:
+            if word_to_find in line:
+                found = True
+                messagebox.showinfo(title="Found", message=f"Details: {line.strip()}")
+                website_entry.delete(0, END)
+                break  # Exit the loop once found
+
+    if not found:
+        messagebox.showerror(title="Error", message="No such website found.")
+
+
 #  UI SETUP
 window = Tk()
 window.title("Password Manager")
@@ -57,8 +77,8 @@ username_label.grid(column=0,row=2)
 password_label = Label(text="Password: ")
 password_label.grid(column=0,row=3)
 
-website_entry = Entry(width=35)
-website_entry.grid(column=1,row=1,columnspan=2)
+website_entry = Entry(width=17)
+website_entry.grid(column=1,row=1,)
 website_entry.focus()
 username_entry = Entry(width=35)
 username_entry.grid(column=1,row=2,columnspan=2)
@@ -68,6 +88,10 @@ password_entry.grid(column=1,row=3)
 
 generate_pass_button = Button(text="Generate Password",command=generate)
 generate_pass_button.grid(row=3,column=2)
+
+search_button = Button(text="Search",command=find_password)
+search_button.grid(row=1,column=2)
+
 
 add_button = Button(text="Add",width=36,command=save)
 add_button.grid(column=1,row=4,columnspan=2)
